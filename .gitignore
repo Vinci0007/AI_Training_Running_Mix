@@ -20,3 +20,8 @@ node_modules
 3rd_party/torch_lib/libtorch-win-shared-with-deps-2.7.0+cu128
 
 .vscode
+
+result
+result/ai_model
+
+test/1.py

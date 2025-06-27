@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>MyAIMixRobotApp</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #808081; 
+            background-image: none;
+            background-blend-mode: color-burn;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden; 
+        }
+        .left-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 60px;
+            height: 100vh;
+            background: #505050;
+            box-shadow: -2px 0 8px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .left-sidebar.collapsed {
+            width: 30px;
+        }
+
+        .left-sidebar.collapsed .sidebar-item,
+        .left-sidebar.collapsed .sidebar-item_bottom {
+            width: 30px;
+            font-size: 0;
+        }
+
+        .toggle-sidebar {
+            position: absolute;
+            right: -15px;
+            top: 15px;
+            width: 24px;
+            height: 24px;
+            background: #505050;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;     
+            justify-content: center;  
+            cursor: pointer;
+            color: #fcfafa;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            font-size: 18px;          
+            line-height: 1;           
+            padding: 0;               
+        }
+        .toggle-sidebar::before {
+            content: "←";
+            display: block;
+            line-height: 1;
+        }
+
+        .toggle-sidebar:hover {
+            background: #007df1;
+        }
+
+        .toggle-sidebar.collapsed {
+            transform: rotate(180deg);
+        }
+
+        .mainCanvas {
+            transition: margin-left 0.3s ease, width 0.3s ease;
+        }
+
+        .mainCanvas.expanded {
+            margin-left: 40px;
+            width: calc(100vw - 40px);
+        }
+        .sidebar-item {
+            margin: 20px 0;
+            text-align: center;
+            color: #fcfafa;
+            font-size: 14px;
+            cursor: pointer;
+            position: relative; 
+        }
+        .sidebar-item img {
+            width: 20px;
+            height: 20px;
+            margin: 0 auto;  
+            display: block;
+        }
+        .user-logo {
+            margin: 20px 0;
+            text-align: center;
+            color: #fcfafa;
+            font-size: 14px;
+            cursor: pointer;
+            position: relative; 
+        }
+        .user-logo img {
+            width: 30px;
+            height: 30px;
+            margin: 0 auto;  
+            display: block;
+        }
+        .sidebar-item:hover {
+            color: #007df1;
+        }
+        .sidebar-item:active {
+            color: #8ddbf3;
+        }
+        .sidebar-icon {
+            width: 20px;
+            height: 20px;
+            color: #fcfafa; 
+            transition: color 0.2s;
+        }
+        .sidebar-item.active .sidebar-icon {
+            color: #1ccaff; 
+        }
+        .sidebar-item_bottom {
+            position: absolute;
+            width: 80px;
+            margin: 20px 0;
+            text-align: center;
+            color: #fcfafa;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .sidebar-item_bottom:hover {
+            color: #007df1;
+        }
+        .sidebar-item_bottom:nth-child(7) {
+            bottom: 60px; 
+        }
+        .sidebar-item_bottom:nth-child(8) {
+            bottom: 20px; 
+        }
+        .mainCanvas, #content-area {
+            margin-left: 100px;
+            padding: 20px;
+            width: calc(100vw - 100px);
+            min-height: 100vh;
+            box-sizing: border-box;
+            overflow-y: auto;
+            overflow-x: hidden; 
+        }
+        #content-area * {
+            max-width: 100%;
+            box-sizing: border-box;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="left-sidebar">
+        <div class="user-logo" onclick="navigateTo('./user/profile.html')">
+            <img src="./static/assets/用户.png" alt="">
+        </div>
+        <div class="sidebar-item"  title="首页" onclick="selectMenu(this, './home.html')">
+            <svg class="sidebar-icon" viewBox="0 0 1186 1024">
+                <path d="M592.979172 99.298087C764.545352 247.565155 1107.6777 544.099291 1107.6777 544.099291 1127.383121 561.128658 1157.162536 558.959296 1174.191903 539.253885 1191.221271 519.548473 1189.051915 489.76905 1169.346507 472.739683L644.064741 18.792487C615.090477-6.247004 570.577796-6.245391 541.605404 18.792487L16.323639 472.739683C-3.381769 489.76905-5.551125 519.548473 11.478242 539.253885 28.50761 558.959296 58.287024 561.128658 77.992446 544.099291 77.992446 544.099291 590.438069 97.102073 592.979172 99.298087L592.979172 99.298087ZM249.34468 1017.263247 451.27768 1017.263247C481.089363 1017.263247 505.25651 993.204509 505.25651 963.284413L505.25651 707.372587 680.4121 707.372587 680.4121 963.284413C680.4121 993.0961 704.63663 1017.263247 734.344069 1017.263247L949.844297 1017.263247C979.630098 1017.263247 1003.776266 993.112147 1003.776266 963.461138L1003.776266 545.711842C1003.776266 519.655814 982.610236 498.53323 956.618992 498.53323 930.574743 498.53323 909.461718 519.580059 909.461718 545.574717L909.461718 922.948698 774.726648 922.948698 774.726648 667.036873C774.726648 637.225185 750.648346 613.058039 720.758247 613.058039L464.910363 613.058039C435.104446 613.058039 410.941961 637.116776 410.941961 667.036873L410.941961 922.948698 289.680399 922.948698 289.680399 545.574717C289.680399 519.59442 268.514368 498.53323 242.523125 498.53323 216.478876 498.53323 195.36585 519.672553 195.36585 545.711842L195.36585 963.461138C195.36585 993.175222 219.424589 1017.263247 249.34468 1017.263247Z" fill="#ffffff" p-id="1671">
+                </path>
+            </svg>
+        </div>
+        <div class="sidebar-item" title="模型训练" onclick="navigateTo('./aiTrain/aiTrain.html')"> 
+            <img src="./static/assets/train.png" alt="">
+        </div>
+        <div class="sidebar-item" onclick="navigateTo('./aiAgent/aiAgent.html')">AI-Agent</div>
+        <div class="sidebar-item" onclick="navigateTo()">机器人仿真</div>
+        <div class="sidebar-item" onclick="navigateTo()">数据</div>   
+        <div class="sidebar-item_bottom" onclick="navigateTo('./user/profile.html')">用户</div>    
+        <div class="sidebar-item_bottom" onclick="navigateTo('./settings/settings.html')">设置</div>             
+    </div>
+    <div class="mainCanvas" id="content-area" >
+        <h1>Start</h1>
+        <p>To be continued...</p>
+    </div>
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.querySelector('.left-sidebar');
+            var mainCanvas = document.getElementById('content-area');
+            var toggleBtn = document.querySelector('.toggle-sidebar');
+            sidebar.classList.toggle('collapsed');
+            mainCanvas.classList.toggle('expanded');
+            toggleBtn.classList.toggle('collapsed');
+        }
+        function navigateTo(url) {
+            if (!url) {
+                alert("Error: navigateTo() requires a URL parameter.");
+                return;
+            }
+            fetch(url)
+                .then(response => response.text())
+                .then(data => {
+                    // 将获取到的 HTML 内容插入到内容区域
+                    document.getElementById('content-area').innerHTML = data;
+                })
+                .catch(error => {
+                    alert("Error: " + error);
+                });
+        }
+        function selectMenu(element, url) {
+            document.querySelectorAll('.sidebar-item').forEach(function(item) {
+                item.classList.remove('active');
+            });
+            element.classList.add('active');
+            navigateTo(url);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+[project]
+name = "ai-training-running-mix"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "numpy>=2.2.5",
+]
+
+
+# [[tool.uv.index]]
+# name = "pytorch-cu128"
+# url = "https://download.pytorch.org/whl/cu128"
+# explicit = true
+
+# [tool.uv.workspace]
+# members = ["py_scripts"]
+
+[project.optional-dependencies]
+torch_build = [
+    "torch==2.7.0+cu128",
+    "torchvision==0.14.0+cu128",
+]

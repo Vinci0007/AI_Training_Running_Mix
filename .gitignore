@@ -1,0 +1,29 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+.vscode
+node_modules
+ai_robot_mix_tools/node_modules
+3rd_party/torch_lib/libtorch-cxx11-abi-shared-with-deps-2.7.0+cu128.zip
+3rd_party/torch_lib/libtorch-cxx11-abi-shared-with-deps-2.7.0+rocm6.3.zip
+3rd_party/torch_lib/libtorch-macos-arm64-2.7.0.zip
+3rd_party/torch_lib/libtorch-win-shared-with-deps-2.7.0+cu128.zip
+3rd_party/torch_lib/libtorch-cxx11-abi-shared-with-deps-2.7.0+cu128/libtorch/build-hash
+3rd_party/torch_lib/libtorch-cxx11-abi-shared-with-deps-2.7.0+cu128
+3rd_party/torch_lib/libtorch-cxx11-abi-shared-with-deps-2.7.0+rocm6.3
+3rd_party/torch_lib/libtorch-macos-arm64-2.7.0
+3rd_party/torch_lib/libtorch-win-shared-with-deps-2.7.0+cu128
+
+
+
+result
+result/ai_model
+
+test/1.py
